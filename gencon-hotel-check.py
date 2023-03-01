@@ -9,6 +9,11 @@ from ssl import create_default_context as create_ssl_context, CERT_NONE, SSLErro
 from sys import stdout, version_info
 from threading import Thread
 from time import sleep
+from dotenv import load_dotenv
+
+import os
+
+load_dotenv()
 
 if version_info < (2, 7, 9):
 	print("Requires Python 2.7.9+")
@@ -202,7 +207,12 @@ for alert in args.alerts or []:
 		from email.mime.text import MIMEText
 		import getpass, smtplib, socket
 		_, host, fromEmail, toEmail = alert
-		password = getpass.getpass("Enter password for %s (or blank if %s requires no authentication): " % (fromEmail, host))
+
+		password = os.getenv('EMAIL_PASSWORD')
+
+		if not password:
+			password = getpass.getpass("Enter password for %s (or blank if %s requires no authentication): " % (fromEmail, host))
+		
 		def closure(host, fromEmail, toEmail):
 			def smtpConnect():
 				try:
