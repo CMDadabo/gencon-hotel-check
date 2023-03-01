@@ -300,6 +300,7 @@ def parseResults():
 		raise RuntimeError("Failed to find search results")
 
 	hotels = fromJS(parser.json)
+	hotels.sort(key=lambda x:x['distanceFromEvent'])
 
 	print("Results:   (%s)" % datetime.now())
 	alerts = []
