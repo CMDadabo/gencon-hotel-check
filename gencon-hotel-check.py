@@ -202,7 +202,7 @@ for alert in args.alerts or []:
 		alertFns.append(lambda preamble, hotels, cmd = alert[1]: subprocess.Popen([cmd] + ["%s: %s" % (hotel['name'], hotel['room']) for hotel in hotels]))
 	elif alert[0] == 'browser':
 		import webbrowser
-		alertFns.append(lambda preamble, hotels: webbrowser.open(baseUrl + '/home'))
+		alertFns.append(lambda preamble, hotels: webbrowser.open('https://book.passkey.com/entry?token=' + os.getenv('PASSKEY_TOKEN')))
 	elif alert[0] == 'email':
 		from email.mime.text import MIMEText
 		import getpass, smtplib, socket
